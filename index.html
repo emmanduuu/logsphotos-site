@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCH_ARCHIVE // INTERACTIVE_HINTS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #03050a; --blue: #0a192f;
+            --yellow: #f0c674; --accent: #d4af37;
+            --arch-blue: #1793d1;
+            --glow-y: rgba(240, 198, 116, 0.4);
+            --glow-b: rgba(23, 147, 209, 0.4);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top right, var(--blue), var(--bg));
+            background-attachment: fixed;
+            color: #fff; overflow-x: hidden;
+        }
+
+        .container { max-width: 1800px; margin: 0 auto; padding: 80px 40px; }
+
+        header { margin-bottom: 100px; }
+        header h1 { 
+            font-size: clamp(3rem, 15vw, 10rem); 
+            font-weight: 900; text-transform: uppercase;
+            letter-spacing: -0.05em; line-height: 0.8; color: var(--yellow);
+        }
+
+        /* --- Collapsable Subgroups --- */
+        details {
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        summary {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            padding: 40px 0;
+            outline: none;
+        }
+
+        /* Grouping Title and Hint */
+        .title-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .category-title {
+            font-size: clamp(1.5rem, 5vw, 3.5rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            color: #fff;
+            transition: color 0.4s ease;
+        }
+
+        /* The Small Subtext Hint */
+        .expand-hint {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            opacity: 0.3;
+            text-transform: uppercase;
+        }
+
+        /* Label on the right */
+        summary::after {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            transition: all 0.4s ease;
+            opacity: 0.5;
+        }
+
+        /* --- Gallery Hover Effects (Yellow) --- */
+        .gallery-section summary::after { content: '[ VIEW_COLLECTION ]'; }
+        
+        .gallery-section summary:hover .title-group { transform: translateX(15px); }
+        .gallery-section summary:hover .category-title { color: var(--yellow); text-shadow: 0 0 20px var(--glow-y); }
+        .gallery-section summary:hover .expand-hint { color: var(--yellow); opacity: 0.8; }
+        .gallery-section summary:hover::after { color: var(--yellow); opacity: 1; text-shadow: 0 0 10px var(--glow-y); }
+
+        /* --- About Hover Effects (Arch Blue) --- */
+        .about-section { border-top: 1px solid rgba(23, 147, 209, 0.2); margin-top: 50px; }
+        .about-section summary::after { content: '[ READ_IDENTITY_LOG ]'; }
+
+        .about-section summary:hover .title-group { transform: translateX(15px); }
+        .about-section summary:hover .category-title { color: var(--arch-blue); text-shadow: 0 0 20px var(--glow-b); }
+        .about-section summary:hover .expand-hint { color: var(--arch-blue); opacity: 0.8; }
+        .about-section summary:hover::after { color: var(--arch-blue); opacity: 1; text-shadow: 0 0 10px var(--glow-b); }
+
+        /* Dynamic Hint Text when Open */
+        details[open] .expand-hint::before { content: "ACTIVE // "; }
+        details[open] .expand-hint { opacity: 0.5; }
+
+        /* --- Content Layout --- */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            padding-bottom: 60px;
+            animation: slideDown 0.4s ease-out;
+        }
+
+        .about-content {
+            padding: 40px 0 80px 0;
+            max-width: 1000px;
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            line-height: 1.2;
+            font-weight: 300;
+            color: #aaa;
+            animation: slideDown 0.4s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .photo-item { aspect-ratio: 1/1; overflow: hidden; background: #000; border: 1px solid rgba(255,255,255,0.05); }
+        .photo-item img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: sepia(100%) saturate(200%) hue-rotate(-15deg) brightness(0.4);
+            transition: 0.6s ease;
+        }
+        .photo-item:hover img { filter: sepia(0%) saturate(100%) brightness(1.1); transform: scale(1.05); }
+
+        #lightbox {
+            position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.98); backdrop-filter: blur(25px);
+            display: none; align-items: center; justify-content: center;
+        }
+        #lightbox img { max-width: 90%; max-height: 90vh; border: 1px solid var(--yellow); }
+
+        footer { padding: 40px; opacity: 0.2; font-family: 'Space Mono', monospace; font-size: 0.7rem; text-align: center; }
+
+        @media (max-width: 1200px) { .gallery { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 800px) { 
+            .gallery { grid-template-columns: repeat(2, 1fr); } 
+            summary::after { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>LOGS PHOTOS</h1>
+    </header>
+
+    <main>
+        <details class="gallery-section"><summary>  <div class="title-group">      <h2 class="category-title">aseul_kshowtime</h2>      <span class="expand-hint">CLICK TO EXPAND</span>  </div></summary><div class="gallery"><div class="photo-item" onclick="openLightbox('images/aseul_kshowtime/LOG00594.JPG')"><img src="images/aseul_kshowtime/thumbs/LOG00594.JPG"></div><div class="photo-item" onclick="openLightbox('images/aseul_kshowtime/LOG00707.JPG')"><img src="images/aseul_kshowtime/thumbs/LOG00707.JPG"></div><div class="photo-item" onclick="openLightbox('images/aseul_kshowtime/LOG00710.JPG')"><img src="images/aseul_kshowtime/thumbs/LOG00710.JPG"></div><div class="photo-item" onclick="openLightbox('images/aseul_kshowtime/LOG00760.JPG')"><img src="images/aseul_kshowtime/thumbs/LOG00760.JPG"></div><div class="photo-item" onclick="openLightbox('images/aseul_kshowtime/LOG00840.JPG')"><img src="images/aseul_kshowtime/thumbs/LOG00840.JPG"></div><div class="photo-item" onclick="openLightbox('images/aseul_kshowtime/LOG00863.JPG')"><img src="images/aseul_kshowtime/thumbs/LOG00863.JPG"></div><div class="photo-item" onclick="openLightbox('images/aseul_kshowtime/LOG00890.JPG')"><img src="images/aseul_kshowtime/thumbs/LOG00890.JPG"></div><div class="photo-item" onclick="openLightbox('images/aseul_kshowtime/LOG00916.JPG')"><img src="images/aseul_kshowtime/thumbs/LOG00916.JPG"></div><div class="photo-item" onclick="openLightbox('images/aseul_kshowtime/LOG00919.JPG')"><img src="images/aseul_kshowtime/thumbs/LOG00919.JPG"></div><div class="photo-item" onclick="openLightbox('images/aseul_kshowtime/LOG00978.JPG')"><img src="images/aseul_kshowtime/thumbs/LOG00978.JPG"></div><div class="photo-item" onclick="openLightbox('images/aseul_kshowtime/LOG01310.JPG')"><img src="images/aseul_kshowtime/thumbs/LOG01310.JPG"></div><div class="photo-item" onclick="openLightbox('images/aseul_kshowtime/LOG01325.JPG')"><img src="images/aseul_kshowtime/thumbs/LOG01325.JPG"></div><div class="photo-item" onclick="openLightbox('images/aseul_kshowtime/LOG01451.JPG')"><img src="images/aseul_kshowtime/thumbs/LOG01451.JPG"></div><div class="photo-item" onclick="openLightbox('images/aseul_kshowtime/LOG01483.JPG')"><img src="images/aseul_kshowtime/thumbs/LOG01483.JPG"></div><div class="photo-item" onclick="openLightbox('images/aseul_kshowtime/LOG01484.JPG')"><img src="images/aseul_kshowtime/thumbs/LOG01484.JPG"></div><div class="photo-item" onclick="openLightbox('images/aseul_kshowtime/LOG01487.JPG')"><img src="images/aseul_kshowtime/thumbs/LOG01487.JPG"></div><div class="photo-item" onclick="openLightbox('images/aseul_kshowtime/LOG01505.JPG')"><img src="images/aseul_kshowtime/thumbs/LOG01505.JPG"></div><div class="photo-item" onclick="openLightbox('images/aseul_kshowtime/LOG01506.JPG')"><img src="images/aseul_kshowtime/thumbs/LOG01506.JPG"></div><div class="photo-item" onclick="openLightbox('images/aseul_kshowtime/LOG01509.JPG')"><img src="images/aseul_kshowtime/thumbs/LOG01509.JPG"></div></div></details><details class="gallery-section"><summary>  <div class="title-group">      <h2 class="category-title">wendy_wealive</h2>      <span class="expand-hint">CLICK TO EXPAND</span>  </div></summary><div class="gallery"><div class="photo-item" onclick="openLightbox('images/wendy_wealive/LOG00182.jpg')"><img src="images/wendy_wealive/thumbs/LOG00182.jpg"></div><div class="photo-item" onclick="openLightbox('images/wendy_wealive/LOG00863 2.jpg')"><img src="images/wendy_wealive/thumbs/LOG00863 2.jpg"></div><div class="photo-item" onclick="openLightbox('images/wendy_wealive/LOG00900.jpg')"><img src="images/wendy_wealive/thumbs/LOG00900.jpg"></div><div class="photo-item" onclick="openLightbox('images/wendy_wealive/LOG00943.jpg')"><img src="images/wendy_wealive/thumbs/LOG00943.jpg"></div><div class="photo-item" onclick="openLightbox('images/wendy_wealive/LOG09567.jpg')"><img src="images/wendy_wealive/thumbs/LOG09567.jpg"></div><div class="photo-item" onclick="openLightbox('images/wendy_wealive/LOG03648.JPG')"><img src="images/wendy_wealive/thumbs/LOG03648.JPG"></div><div class="photo-item" onclick="openLightbox('images/wendy_wealive/LOG03653-Enhanced-NR.JPG')"><img src="images/wendy_wealive/thumbs/LOG03653-Enhanced-NR.JPG"></div><div class="photo-item" onclick="openLightbox('images/wendy_wealive/LOG03792.JPG')"><img src="images/wendy_wealive/thumbs/LOG03792.JPG"></div><div class="photo-item" onclick="openLightbox('images/wendy_wealive/LOG04379.JPG')"><img src="images/wendy_wealive/thumbs/LOG04379.JPG"></div><div class="photo-item" onclick="openLightbox('images/wendy_wealive/LOG04422.JPG')"><img src="images/wendy_wealive/thumbs/LOG04422.JPG"></div><div class="photo-item" onclick="openLightbox('images/wendy_wealive/LOG04439.JPG')"><img src="images/wendy_wealive/thumbs/LOG04439.JPG"></div><div class="photo-item" onclick="openLightbox('images/wendy_wealive/LOG04461.JPG')"><img src="images/wendy_wealive/thumbs/LOG04461.JPG"></div><div class="photo-item" onclick="openLightbox('images/wendy_wealive/LOG04467.JPG')"><img src="images/wendy_wealive/thumbs/LOG04467.JPG"></div><div class="photo-item" onclick="openLightbox('images/wendy_wealive/LOG04468.JPG')"><img src="images/wendy_wealive/thumbs/LOG04468.JPG"></div><div class="photo-item" onclick="openLightbox('images/wendy_wealive/LOG04509.JPG')"><img src="images/wendy_wealive/thumbs/LOG04509.JPG"></div><div class="photo-item" onclick="openLightbox('images/wendy_wealive/LOG04510.JPG')"><img src="images/wendy_wealive/thumbs/LOG04510.JPG"></div><div class="photo-item" onclick="openLightbox('images/wendy_wealive/LOG04542.JPG')"><img src="images/wendy_wealive/thumbs/LOG04542.JPG"></div></div></details><details class="gallery-section"><summary>  <div class="title-group">      <h2 class="category-title">yeri_fancon</h2>      <span class="expand-hint">CLICK TO EXPAND</span>  </div></summary><div class="gallery"><div class="photo-item" onclick="openLightbox('images/yeri_fancon/LOG02755.jpg')"><img src="images/yeri_fancon/thumbs/LOG02755.jpg"></div><div class="photo-item" onclick="openLightbox('images/yeri_fancon/LOG02914.jpg')"><img src="images/yeri_fancon/thumbs/LOG02914.jpg"></div><div class="photo-item" onclick="openLightbox('images/yeri_fancon/LOG02978.jpg')"><img src="images/yeri_fancon/thumbs/LOG02978.jpg"></div><div class="photo-item" onclick="openLightbox('images/yeri_fancon/LOG03899.jpg')"><img src="images/yeri_fancon/thumbs/LOG03899.jpg"></div><div class="photo-item" onclick="openLightbox('images/yeri_fancon/LOG04002.jpg')"><img src="images/yeri_fancon/thumbs/LOG04002.jpg"></div><div class="photo-item" onclick="openLightbox('images/yeri_fancon/LOG04036.jpg')"><img src="images/yeri_fancon/thumbs/LOG04036.jpg"></div><div class="photo-item" onclick="openLightbox('images/yeri_fancon/LOG04109.jpg')"><img src="images/yeri_fancon/thumbs/LOG04109.jpg"></div></div></details><details class="about-section"><summary>  <div class="title-group">      <h2 class="category-title">IDENTITY_LOG</h2>      <span class="expand-hint">CLICK TO ACCESS</span>  </div></summary><div class="about-content">lmao vibe coded ts<br />
+</div></details>    </main>
+</div>
+
+<footer>[ END_OF_SESSION // ARCH_STABLE ]</footer>
+
+<div id="lightbox" onclick="this.style.display='none'"><img id="lightbox-img" src=""></div>
+
+<script>
+    function openLightbox(src) {
+        const lb = document.getElementById('lightbox');
+        const img = document.getElementById('lightbox-img');
+        img.src = src;
+        lb.style.display = 'flex';
+    }
+    document.addEventListener('keydown', e => {
+        if (e.key === "Escape") document.getElementById('lightbox').style.display = 'none';
+    });
+</script>
+
+</body>
+</html>
