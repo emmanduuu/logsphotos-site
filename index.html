@@ -5,12 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOGS PHOTOS // PORTFOLIO</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Space+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&family=Space+Mono&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #03050a; --blue: #0a192f;
-            --yellow: #f0c674; --accent: #d4af37;
-            --arch-blue: #1793d1;
+            --yellow: #f0c674; --arch-blue: #1793d1;
             --glow-y: rgba(240, 198, 116, 0.4);
             --glow-b: rgba(23, 147, 209, 0.4);
         }
@@ -23,132 +22,106 @@
             color: #fff; overflow-x: hidden;
         }
 
-        .container { max-width: 1800px; margin: 0 auto; padding: 80px 40px; }
+        .container { max-width: 1800px; margin: 0 auto; padding: 60px 40px; }
 
-        header { margin-bottom: 100px; }
+        /* --- Header Section --- */
+        header { margin-bottom: 20px; }
         header h1 { 
-            font-size: clamp(3rem, 15vw, 10rem); 
+            font-size: clamp(3rem, 12vw, 8rem); 
             font-weight: 900; text-transform: uppercase;
             letter-spacing: -0.05em; line-height: 0.8; color: var(--yellow);
         }
 
-        /* --- Collapsable Subgroups --- */
-        details {
-            margin-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        summary {
-            list-style: none;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-            padding: 40px 0;
-            outline: none;
-        }
-
-        /* Grouping Title and Hint */
-        .title-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .category-title {
-            font-size: clamp(1.5rem, 5vw, 3.5rem);
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -2px;
-            color: #fff;
-            transition: color 0.4s ease;
-        }
-
-        /* The Small Subtext Hint */
-        .expand-hint {
+        .subtitle {
             font-family: 'Space Mono', monospace;
-            font-size: 0.65rem;
-            letter-spacing: 3px;
-            opacity: 0.3;
-            text-transform: uppercase;
+            font-size: clamp(0.7rem, 2vw, 1rem);
+            color: var(--arch-blue);
+            text-transform: uppercase; letter-spacing: 5px; margin-top: 15px; opacity: 0.8;
         }
 
-        /* Label on the right */
-        summary::after {
+        .manifesto {
+            max-width: 1000px; margin: 25px 0 10px 0;
+            /*font-family: 'Space Mono', monospace; font-size: 0.6rem; line-height: 1.6; */
             font-family: 'Space Mono', monospace;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            transition: all 0.4s ease;
-            opacity: 0.5;
+            /* clamp(MIN, PREFERRED, MAX) */
+            font-size: clamp(0.6rem, 0.4rem + 0.5vw, 1rem); 
+            line-height: 1.6;
+            color: #888; border-left: 2px solid rgba(23, 147, 209, 0.3); padding-left: 15px;
         }
 
-        /* --- Gallery Hover Effects (Yellow) --- */
-        .gallery-section summary::after { content: '[ VIEW_COLLECTION ]'; }
-        
-        .gallery-section summary:hover .title-group { transform: translateX(15px); }
-        .gallery-section summary:hover .category-title { color: var(--yellow); text-shadow: 0 0 20px var(--glow-y); }
-        .gallery-section summary:hover .expand-hint { color: var(--yellow); opacity: 0.8; }
-        .gallery-section summary:hover::after { color: var(--yellow); opacity: 1; text-shadow: 0 0 10px var(--glow-y); }
+        /* --- Gallery Sections --- */
+        details { border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        summary { display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 30px 0; outline: none; }
+        .title-group { display: flex; flex-direction: column; gap: 5px; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .category-title { font-size: clamp(1.5rem, 5vw, 3rem); font-weight: 900; text-transform: uppercase; letter-spacing: -2px; transition: 0.4s ease; }
+        .expand-hint { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 2px; opacity: 0.3; }
 
-        /* --- About Hover Effects (Arch Blue) --- */
-        .about-section { border-top: 1px solid rgba(23, 147, 209, 0.2); margin-top: 50px; }
-        .about-section summary::after { content: '[ READ_IDENTITY_LOG ]'; }
+        summary:hover .title-group { transform: translateX(15px); }
+        summary:hover .category-title { color: var(--yellow); text-shadow: 0 0 20px var(--glow-y); }
 
-        .about-section summary:hover .title-group { transform: translateX(15px); }
-        .about-section summary:hover .category-title { color: var(--arch-blue); text-shadow: 0 0 20px var(--glow-b); }
-        .about-section summary:hover .expand-hint { color: var(--arch-blue); opacity: 0.8; }
-        .about-section summary:hover::after { color: var(--arch-blue); opacity: 1; text-shadow: 0 0 10px var(--glow-b); }
+        .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding-bottom: 60px; animation: slideDown 0.4s ease; }
+        @media (min-width: 1000px) { .gallery { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); } }
 
-        /* Dynamic Hint Text when Open */
-        details[open] .expand-hint::before { content: "ACTIVE // "; }
-        details[open] .expand-hint { opacity: 0.5; }
-
-        /* --- Content Layout --- */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-            padding-bottom: 60px;
-            animation: slideDown 0.4s ease-out;
-        }
-
-        .about-content {
-            padding: 40px 0 80px 0;
-            max-width: 1000px;
-            font-size: clamp(1rem, 3vw, 1.2rem);
-            line-height: 1.2;
-            font-weight: 300;
-            color: #aaa;
-            animation: slideDown 0.4s ease-out;
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .photo-item { aspect-ratio: 1/1; overflow: hidden; background: #000; border: 1px solid rgba(255,255,255,0.05); }
-        .photo-item img {
-            width: 100%; height: 100%; object-fit: cover;
-            filter: sepia(100%) saturate(200%) hue-rotate(-15deg) brightness(0.4);
-            transition: 0.6s ease;
+        .photo-item { aspect-ratio: 1/1; overflow: hidden; background: #000; border: 1px solid rgba(255,255,255,0.05); cursor: zoom-in; }
+        .photo-item img { 
+            width: 100%; height: 100%; object-fit: cover; 
+            filter: sepia(100%) saturate(180%) hue-rotate(-25deg) brightness(0.6);
+            transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); 
         }
         .photo-item:hover img { filter: sepia(0%) saturate(100%) brightness(1.1); transform: scale(1.05); }
 
-        #lightbox {
-            position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.98); backdrop-filter: blur(25px);
-            display: none; align-items: center; justify-content: center;
+        /* --- Overlays & Navigation --- */
+        .overlay { position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); backdrop-filter: blur(20px); display: none; align-items: center; justify-content: center; padding: 20px; }
+        
+        #lightbox img { max-width: 95%; max-height: 90vh; border: 1px solid var(--yellow); box-shadow: 0 0 40px rgba(0,0,0,0.5); }
+
+        .nav-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: none; border: none; color: var(--yellow);
+            font-family: 'Space Mono', monospace; font-size: 1rem;
+            cursor: pointer; padding: 40px; opacity: 0.3; transition: 0.3s;
+            z-index: 10001;
         }
-        #lightbox img { max-width: 90%; max-height: 90vh; border: 1px solid var(--yellow); }
+        .nav-btn:hover { opacity: 1; text-shadow: 0 0 15px var(--glow-y); }
+        #prev-btn { left: 0; }
+        #next-btn { right: 0; }
 
-        footer { padding: 40px; opacity: 0.2; font-family: 'Space Mono', monospace; font-size: 0.7rem; text-align: center; }
+        /* --- Sticky Identity Trigger --- */
+        .about-trigger {
+            position: sticky; bottom: 20px; z-index: 100; margin-top: 40px;
+            background: rgba(10, 25, 47, 0.8); backdrop-filter: blur(15px);
+            border: 1px solid rgba(23, 147, 209, 0.3); padding: 0 30px; cursor: pointer; transition: 0.4s ease;
+        }
+        #collapse-btn {
+            position: absolute; top: -50px; left: 0; background: var(--yellow); color: #000;
+            font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 900;
+            padding: 12px 30px; border: none; cursor: pointer; display: none;
+            box-shadow: 0 0 15px var(--glow-y); transition: 0.3s;
+        }
+        .about-trigger-content { display: flex; align-items: center; justify-content: space-between; padding: 25px 0; }
+        main:has(details[open]) .about-trigger { transform: scale(0.95); opacity: 0.8; bottom: 10px; }
+        main:has(details[open]) #collapse-btn { display: block; }
 
-        @media (max-width: 1200px) { .gallery { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 800px) { 
-            .gallery { grid-template-columns: repeat(2, 1fr); } 
-            summary::after { display: none; }
+        /* --- Business Card --- */
+        .business-card { 
+            display: flex; flex-direction: column; justify-content: space-between;
+            width: 100%; max-width: 550px; min-height: 320px;
+            background: var(--blue); border: 1px solid var(--arch-blue);
+            padding: clamp(20px, 5vw, 40px); position: relative;
+        }
+        .business-card::before { content: ""; position: absolute; top: 0; left: 0; width: 20px; height: 20px; border-top: 4px solid var(--arch-blue); border-left: 4px solid var(--arch-blue); }
+        .card-name { font-size: clamp(1.8rem, 6vw, 3rem); font-weight: 900; color: #fff; line-height: 1; margin-bottom: 10px; }
+        .card-title { font-family: 'Space Mono', monospace; font-size: 0.8rem; color: var(--yellow); margin-bottom: 30px; }
+        .card-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; }
+        .social-link { font-family: 'Space Mono', monospace; font-size: 0.7rem; text-decoration: none; color: #fff; border: 1px solid rgba(255,255,255,0.1); padding: 12px 15px; transition: 0.3s; flex-grow: 1; text-align: center; }
+        .social-link:hover { background: var(--arch-blue); color: #000; }
+
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+        footer { padding: 60px 40px; opacity: 0.2; font-family: 'Space Mono', monospace; font-size: 0.6rem; text-align: center; }
+
+        @media (max-width: 600px) {
+            .nav-btn { padding: 20px; font-size: 0.8rem; top: auto; bottom: 20px; transform: none; }
+            #lightbox img { max-width: 100%; }
         }
     </style>
 </head>
@@ -157,34 +130,105 @@
 <div class="container">
     <header>
         <h1>LOGS PHOTOS</h1>
+        <p class="subtitle">// EMMAN LOGATOC'S ORIGINAL VISUALS</p>
     </header>
 
+    <section class="manifesto">
+        <p><b>Hi, my name is Emman, </b>and welcome to my photography portfolio! The gallery is categorized on different styles of shooting that I'm fond of doing. My contact info can be clicked below the page<br>
+
+            <br>I mostly do travel and street photography because I love capturing raw and real moments. <b>This is why I'm also seeking opportunities to shoot events as it matches those vibes.</b><br>
+        <br> I have built this website with all the knowledge that I have and with the assistance of google gemini (ai) for most of the front end work.</p>
+    </section>
+
     <main>
-        <details class="gallery-section"><summary>  <div class="title-group">      <h2 class="category-title">0_events</h2>      <span class="expand-hint">CLICK TO EXPAND</span>  </div></summary><div class="gallery"><div class="photo-item" onclick="openLightbox('images/0_events/LOG00182.jpg')"><img src="images/0_events/LOG00182.jpg"></div><div class="photo-item" onclick="openLightbox('images/0_events/LOG00900.jpg')"><img src="images/0_events/LOG00900.jpg"></div><div class="photo-item" onclick="openLightbox('images/0_events/LOG00943.jpg')"><img src="images/0_events/LOG00943.jpg"></div><div class="photo-item" onclick="openLightbox('images/0_events/LOG01215.jpg')"><img src="images/0_events/thumbs/LOG01215.jpg"></div><div class="photo-item" onclick="openLightbox('images/0_events/LOG01326.jpg')"><img src="images/0_events/thumbs/LOG01326.jpg"></div><div class="photo-item" onclick="openLightbox('images/0_events/LOG01369.jpg')"><img src="images/0_events/thumbs/LOG01369.jpg"></div><div class="photo-item" onclick="openLightbox('images/0_events/LOG02731.jpg')"><img src="images/0_events/thumbs/LOG02731.jpg"></div><div class="photo-item" onclick="openLightbox('images/0_events/LOG02756.jpg')"><img src="images/0_events/thumbs/LOG02756.jpg"></div><div class="photo-item" onclick="openLightbox('images/0_events/LOG03824.jpg')"><img src="images/0_events/thumbs/LOG03824.jpg"></div><div class="photo-item" onclick="openLightbox('images/0_events/LOG09567.jpg')"><img src="images/0_events/LOG09567.jpg"></div><div class="photo-item" onclick="openLightbox('images/0_events/LOG00863.JPG')"><img src="images/0_events/thumbs/LOG00863.JPG"></div><div class="photo-item" onclick="openLightbox('images/0_events/LOG00892.JPG')"><img src="images/0_events/thumbs/LOG00892.JPG"></div><div class="photo-item" onclick="openLightbox('images/0_events/LOG01366.JPG')"><img src="images/0_events/thumbs/LOG01366.JPG"></div><div class="photo-item" onclick="openLightbox('images/0_events/LOG01451.JPG')"><img src="images/0_events/thumbs/LOG01451.JPG"></div><div class="photo-item" onclick="openLightbox('images/0_events/LOG03792-Enhanced-NR.JPG')"><img src="images/0_events/thumbs/LOG03792-Enhanced-NR.JPG"></div><div class="photo-item" onclick="openLightbox('images/0_events/LOG04376.JPG')"><img src="images/0_events/thumbs/LOG04376.JPG"></div><div class="photo-item" onclick="openLightbox('images/0_events/LOG04515.JPG')"><img src="images/0_events/thumbs/LOG04515.JPG"></div><div class="photo-item" onclick="openLightbox('images/0_events/LSFM-56.JPG')"><img src="images/0_events/thumbs/LSFM-56.JPG"></div><div class="photo-item" onclick="openLightbox('images/0_events/LSFM-64.JPG')"><img src="images/0_events/thumbs/LSFM-64.JPG"></div></div></details><details class="gallery-section"><summary>  <div class="title-group">      <h2 class="category-title">1_street</h2>      <span class="expand-hint">CLICK TO EXPAND</span>  </div></summary><div class="gallery"><div class="photo-item" onclick="openLightbox('images/1_street/IMG_7546.jpg')"><img src="images/1_street/thumbs/IMG_7546.jpg"></div><div class="photo-item" onclick="openLightbox('images/1_street/IMG_7611.jpg')"><img src="images/1_street/thumbs/IMG_7611.jpg"></div><div class="photo-item" onclick="openLightbox('images/1_street/LOG00225.jpg')"><img src="images/1_street/thumbs/LOG00225.jpg"></div><div class="photo-item" onclick="openLightbox('images/1_street/LOG00230.jpg')"><img src="images/1_street/thumbs/LOG00230.jpg"></div><div class="photo-item" onclick="openLightbox('images/1_street/LOG00238.jpg')"><img src="images/1_street/thumbs/LOG00238.jpg"></div><div class="photo-item" onclick="openLightbox('images/1_street/LOG05884.jpg')"><img src="images/1_street/thumbs/LOG05884.jpg"></div><div class="photo-item" onclick="openLightbox('images/1_street/LOG06115.jpg')"><img src="images/1_street/thumbs/LOG06115.jpg"></div><div class="photo-item" onclick="openLightbox('images/1_street/LOG06124.jpg')"><img src="images/1_street/thumbs/LOG06124.jpg"></div><div class="photo-item" onclick="openLightbox('images/1_street/LOG06254.jpg')"><img src="images/1_street/thumbs/LOG06254.jpg"></div><div class="photo-item" onclick="openLightbox('images/1_street/LOG06304.jpg')"><img src="images/1_street/thumbs/LOG06304.jpg"></div><div class="photo-item" onclick="openLightbox('images/1_street/LOG05344.JPG')"><img src="images/1_street/thumbs/LOG05344.JPG"></div><div class="photo-item" onclick="openLightbox('images/1_street/LOG05354.JPG')"><img src="images/1_street/thumbs/LOG05354.JPG"></div><div class="photo-item" onclick="openLightbox('images/1_street/LOG05361.JPG')"><img src="images/1_street/thumbs/LOG05361.JPG"></div><div class="photo-item" onclick="openLightbox('images/1_street/LOG05383.JPG')"><img src="images/1_street/thumbs/LOG05383.JPG"></div><div class="photo-item" onclick="openLightbox('images/1_street/LOG05387.JPG')"><img src="images/1_street/thumbs/LOG05387.JPG"></div><div class="photo-item" onclick="openLightbox('images/1_street/LOG05551.JPG')"><img src="images/1_street/thumbs/LOG05551.JPG"></div><div class="photo-item" onclick="openLightbox('images/1_street/LOG05562.JPG')"><img src="images/1_street/thumbs/LOG05562.JPG"></div><div class="photo-item" onclick="openLightbox('images/1_street/LOG05680.JPG')"><img src="images/1_street/thumbs/LOG05680.JPG"></div><div class="photo-item" onclick="openLightbox('images/1_street/LOG05699.JPG')"><img src="images/1_street/thumbs/LOG05699.JPG"></div><div class="photo-item" onclick="openLightbox('images/1_street/LOG07523.JPG')"><img src="images/1_street/thumbs/LOG07523.JPG"></div><div class="photo-item" onclick="openLightbox('images/1_street/LOG07608.JPG')"><img src="images/1_street/thumbs/LOG07608.JPG"></div><div class="photo-item" onclick="openLightbox('images/1_street/LOG07871.JPG')"><img src="images/1_street/thumbs/LOG07871.JPG"></div><div class="photo-item" onclick="openLightbox('images/1_street/LOG07907.JPG')"><img src="images/1_street/thumbs/LOG07907.JPG"></div><div class="photo-item" onclick="openLightbox('images/1_street/LOG08250.JPG')"><img src="images/1_street/thumbs/LOG08250.JPG"></div></div></details><details class="gallery-section"><summary>  <div class="title-group">      <h2 class="category-title">2_travel</h2>      <span class="expand-hint">CLICK TO EXPAND</span>  </div></summary><div class="gallery"><div class="photo-item" onclick="openLightbox('images/2_travel/LOG00081.jpg')"><img src="images/2_travel/thumbs/LOG00081.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG00312.jpg')"><img src="images/2_travel/thumbs/LOG00312.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG00392.jpg')"><img src="images/2_travel/thumbs/LOG00392.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG00401.jpg')"><img src="images/2_travel/thumbs/LOG00401.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG00478.jpg')"><img src="images/2_travel/thumbs/LOG00478.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG00697.jpg')"><img src="images/2_travel/thumbs/LOG00697.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG00752.jpg')"><img src="images/2_travel/thumbs/LOG00752.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG00957.jpg')"><img src="images/2_travel/thumbs/LOG00957.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG01236.jpg')"><img src="images/2_travel/thumbs/LOG01236.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG01656.jpg')"><img src="images/2_travel/thumbs/LOG01656.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG01686.jpg')"><img src="images/2_travel/thumbs/LOG01686.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG01953.jpg')"><img src="images/2_travel/thumbs/LOG01953.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG04289.jpg')"><img src="images/2_travel/thumbs/LOG04289.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG04427.jpg')"><img src="images/2_travel/thumbs/LOG04427.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG04923.jpg')"><img src="images/2_travel/thumbs/LOG04923.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG05157.jpg')"><img src="images/2_travel/thumbs/LOG05157.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG05198.jpg')"><img src="images/2_travel/thumbs/LOG05198.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG06839.jpg')"><img src="images/2_travel/thumbs/LOG06839.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG07158.jpg')"><img src="images/2_travel/thumbs/LOG07158.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG07553.jpg')"><img src="images/2_travel/thumbs/LOG07553.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG07679.jpg')"><img src="images/2_travel/thumbs/LOG07679.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG08224.jpg')"><img src="images/2_travel/thumbs/LOG08224.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG08362.jpg')"><img src="images/2_travel/thumbs/LOG08362.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG08592_2.jpg')"><img src="images/2_travel/thumbs/LOG08592_2.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG08638.jpg')"><img src="images/2_travel/thumbs/LOG08638.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG09909.jpg')"><img src="images/2_travel/thumbs/LOG09909.jpg"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG00410.JPG')"><img src="images/2_travel/thumbs/LOG00410.JPG"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG02072.JPG')"><img src="images/2_travel/thumbs/LOG02072.JPG"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG02245.JPG')"><img src="images/2_travel/thumbs/LOG02245.JPG"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG02306.JPG')"><img src="images/2_travel/thumbs/LOG02306.JPG"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG03357.JPG')"><img src="images/2_travel/thumbs/LOG03357.JPG"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG03506.JPG')"><img src="images/2_travel/thumbs/LOG03506.JPG"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG03629.JPG')"><img src="images/2_travel/thumbs/LOG03629.JPG"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG04120.JPG')"><img src="images/2_travel/thumbs/LOG04120.JPG"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG04332.JPG')"><img src="images/2_travel/thumbs/LOG04332.JPG"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG04664.JPG')"><img src="images/2_travel/thumbs/LOG04664.JPG"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG07253.JPG')"><img src="images/2_travel/thumbs/LOG07253.JPG"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG07644.JPG')"><img src="images/2_travel/thumbs/LOG07644.JPG"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG07789.JPG')"><img src="images/2_travel/thumbs/LOG07789.JPG"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG08742.JPG')"><img src="images/2_travel/thumbs/LOG08742.JPG"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG08968.JPG')"><img src="images/2_travel/thumbs/LOG08968.JPG"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG09045.JPG')"><img src="images/2_travel/thumbs/LOG09045.JPG"></div><div class="photo-item" onclick="openLightbox('images/2_travel/LOG09119.JPG')"><img src="images/2_travel/thumbs/LOG09119.JPG"></div></div></details><details class="about-section"><summary>  <div class="title-group">      <h2 class="category-title">LOGS_CONTACT</h2>      <span class="expand-hint">CLICK TO ACCESS</span>  </div></summary><div class="about-content"><h1>// EMMAN LOGATOC</h1><br />
-Freelance Photographer<br />
-<br />
-emmanuel.logatoc@gmail.com<br />
-instagram.com/emmanduuu<br />
-linkedin.com/in/emmanlogatoc<br />
-</div></details>    </main>
+        <details><summary><div class="title-group"><h2 class="category-title">0_events</h2><span class="expand-hint">CLICK TO EXPAND</span></div></summary><div class="gallery"><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG00182.jpg')"><img src="images/0_events/thumbs/LOG00182.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG00863 2.jpg')"><img src="images/0_events/thumbs/LOG00863 2.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG00900.jpg')"><img src="images/0_events/thumbs/LOG00900.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG00943.jpg')"><img src="images/0_events/thumbs/LOG00943.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG00978.jpg')"><img src="images/0_events/thumbs/LOG00978.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG01215.jpg')"><img src="images/0_events/thumbs/LOG01215.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG01262.jpg')"><img src="images/0_events/thumbs/LOG01262.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG01264.jpg')"><img src="images/0_events/thumbs/LOG01264.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG01310.jpg')"><img src="images/0_events/thumbs/LOG01310.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG01326.jpg')"><img src="images/0_events/thumbs/LOG01326.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG01349.jpg')"><img src="images/0_events/thumbs/LOG01349.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG01354.jpg')"><img src="images/0_events/thumbs/LOG01354.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG01451.jpg')"><img src="images/0_events/thumbs/LOG01451.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG02256.jpg')"><img src="images/0_events/thumbs/LOG02256.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG02267.jpg')"><img src="images/0_events/thumbs/LOG02267.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG02749.jpg')"><img src="images/0_events/thumbs/LOG02749.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG02755.jpg')"><img src="images/0_events/thumbs/LOG02755.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG02773.jpg')"><img src="images/0_events/thumbs/LOG02773.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG02801.jpg')"><img src="images/0_events/thumbs/LOG02801.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG02915.jpg')"><img src="images/0_events/thumbs/LOG02915.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG02978.jpg')"><img src="images/0_events/thumbs/LOG02978.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG03660-Enhanced-SR.jpg')"><img src="images/0_events/thumbs/LOG03660-Enhanced-SR.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG03893.jpg')"><img src="images/0_events/thumbs/LOG03893.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG04002.jpg')"><img src="images/0_events/thumbs/LOG04002.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG04027.jpg')"><img src="images/0_events/thumbs/LOG04027.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG04383.jpg')"><img src="images/0_events/thumbs/LOG04383.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG04384.jpg')"><img src="images/0_events/thumbs/LOG04384.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG04515.jpg')"><img src="images/0_events/thumbs/LOG04515.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG04522.jpg')"><img src="images/0_events/thumbs/LOG04522.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG04542.jpg')"><img src="images/0_events/thumbs/LOG04542.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG06088.jpg')"><img src="images/0_events/thumbs/LOG06088.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG06587.jpg')"><img src="images/0_events/thumbs/LOG06587.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG06702.jpg')"><img src="images/0_events/thumbs/LOG06702.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG06723.jpg')"><img src="images/0_events/thumbs/LOG06723.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG06793.jpg')"><img src="images/0_events/thumbs/LOG06793.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG06996.jpg')"><img src="images/0_events/thumbs/LOG06996.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG09567.jpg')"><img src="images/0_events/thumbs/LOG09567.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG00916.JPG')"><img src="images/0_events/thumbs/LOG00916.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/0_events/LOG00919.JPG')"><img src="images/0_events/thumbs/LOG00919.JPG" loading="lazy"></div></div></details><details><summary><div class="title-group"><h2 class="category-title">1_street</h2><span class="expand-hint">CLICK TO EXPAND</span></div></summary><div class="gallery"><div class="photo-item" onclick="openLightbox(this, 'images/1_street/IMG_7546.jpg')"><img src="images/1_street/thumbs/IMG_7546.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG00230.jpg')"><img src="images/1_street/thumbs/LOG00230.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG00238.jpg')"><img src="images/1_street/thumbs/LOG00238.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG00522.jpg')"><img src="images/1_street/thumbs/LOG00522.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG02015.jpg')"><img src="images/1_street/thumbs/LOG02015.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG02030.jpg')"><img src="images/1_street/thumbs/LOG02030.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG02039.jpg')"><img src="images/1_street/thumbs/LOG02039.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG02209.jpg')"><img src="images/1_street/thumbs/LOG02209.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG02229.jpg')"><img src="images/1_street/thumbs/LOG02229.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG02268.jpg')"><img src="images/1_street/thumbs/LOG02268.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG05530.jpg')"><img src="images/1_street/thumbs/LOG05530.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG05884.jpg')"><img src="images/1_street/thumbs/LOG05884.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG06115.jpg')"><img src="images/1_street/thumbs/LOG06115.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG06167.jpg')"><img src="images/1_street/thumbs/LOG06167.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG06191.jpg')"><img src="images/1_street/thumbs/LOG06191.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG06305.jpg')"><img src="images/1_street/thumbs/LOG06305.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG09937.jpg')"><img src="images/1_street/thumbs/LOG09937.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG09964.jpg')"><img src="images/1_street/thumbs/LOG09964.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/3.png')"><img src="images/1_street/thumbs/3.png" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/4.png')"><img src="images/1_street/thumbs/4.png" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG03115.JPG')"><img src="images/1_street/thumbs/LOG03115.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG05361.JPG')"><img src="images/1_street/thumbs/LOG05361.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG05547.JPG')"><img src="images/1_street/thumbs/LOG05547.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG05551.JPG')"><img src="images/1_street/thumbs/LOG05551.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG05562.JPG')"><img src="images/1_street/thumbs/LOG05562.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG05680.JPG')"><img src="images/1_street/thumbs/LOG05680.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG07608.JPG')"><img src="images/1_street/thumbs/LOG07608.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG07907.JPG')"><img src="images/1_street/thumbs/LOG07907.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/1_street/LOG08250.JPG')"><img src="images/1_street/thumbs/LOG08250.JPG" loading="lazy"></div></div></details><details><summary><div class="title-group"><h2 class="category-title">2_travel</h2><span class="expand-hint">CLICK TO EXPAND</span></div></summary><div class="gallery"><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG00057.jpg')"><img src="images/2_travel/thumbs/LOG00057.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG00079.jpg')"><img src="images/2_travel/thumbs/LOG00079.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG00081.jpg')"><img src="images/2_travel/thumbs/LOG00081.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG00186.jpg')"><img src="images/2_travel/thumbs/LOG00186.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG00219.jpg')"><img src="images/2_travel/thumbs/LOG00219.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG00273.jpg')"><img src="images/2_travel/thumbs/LOG00273.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG00401.jpg')"><img src="images/2_travel/thumbs/LOG00401.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG00478.jpg')"><img src="images/2_travel/thumbs/LOG00478.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG00552.jpg')"><img src="images/2_travel/thumbs/LOG00552.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG00673.jpg')"><img src="images/2_travel/thumbs/LOG00673.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG00682.jpg')"><img src="images/2_travel/thumbs/LOG00682.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG00791.jpg')"><img src="images/2_travel/thumbs/LOG00791.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG00957.jpg')"><img src="images/2_travel/thumbs/LOG00957.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG01207.jpg')"><img src="images/2_travel/thumbs/LOG01207.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG01686.jpg')"><img src="images/2_travel/thumbs/LOG01686.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG01695.jpg')"><img src="images/2_travel/thumbs/LOG01695.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG01852.jpg')"><img src="images/2_travel/thumbs/LOG01852.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG01953.jpg')"><img src="images/2_travel/thumbs/LOG01953.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG01985.jpg')"><img src="images/2_travel/thumbs/LOG01985.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG02229.jpg')"><img src="images/2_travel/thumbs/LOG02229.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG04326.jpg')"><img src="images/2_travel/thumbs/LOG04326.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG04758.jpg')"><img src="images/2_travel/thumbs/LOG04758.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG04893.jpg')"><img src="images/2_travel/thumbs/LOG04893.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG05018.jpg')"><img src="images/2_travel/thumbs/LOG05018.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG06839.jpg')"><img src="images/2_travel/thumbs/LOG06839.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG06887.jpg')"><img src="images/2_travel/thumbs/LOG06887.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG07158.jpg')"><img src="images/2_travel/thumbs/LOG07158.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG07590.jpg')"><img src="images/2_travel/thumbs/LOG07590.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG07679.jpg')"><img src="images/2_travel/thumbs/LOG07679.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG07972.jpg')"><img src="images/2_travel/thumbs/LOG07972.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG08170.jpg')"><img src="images/2_travel/thumbs/LOG08170.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG08275.jpg')"><img src="images/2_travel/thumbs/LOG08275.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG08362.jpg')"><img src="images/2_travel/thumbs/LOG08362.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG08592_2.jpg')"><img src="images/2_travel/thumbs/LOG08592_2.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG08748.jpg')"><img src="images/2_travel/thumbs/LOG08748.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG08922.jpg')"><img src="images/2_travel/thumbs/LOG08922.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG09024.jpg')"><img src="images/2_travel/thumbs/LOG09024.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG09430.jpg')"><img src="images/2_travel/thumbs/LOG09430.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG09456.jpg')"><img src="images/2_travel/thumbs/LOG09456.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG09837.jpg')"><img src="images/2_travel/thumbs/LOG09837.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG09886.jpg')"><img src="images/2_travel/thumbs/LOG09886.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG09909.jpg')"><img src="images/2_travel/thumbs/LOG09909.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG09916.jpg')"><img src="images/2_travel/thumbs/LOG09916.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG09956.jpg')"><img src="images/2_travel/thumbs/LOG09956.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG09968.jpg')"><img src="images/2_travel/thumbs/LOG09968.jpg" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG00410.JPG')"><img src="images/2_travel/thumbs/LOG00410.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG01961.JPG')"><img src="images/2_travel/thumbs/LOG01961.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG02306.JPG')"><img src="images/2_travel/thumbs/LOG02306.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG02461.JPG')"><img src="images/2_travel/thumbs/LOG02461.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG03348.JPG')"><img src="images/2_travel/thumbs/LOG03348.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG03356.JPG')"><img src="images/2_travel/thumbs/LOG03356.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG03357.JPG')"><img src="images/2_travel/thumbs/LOG03357.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG03370.JPG')"><img src="images/2_travel/thumbs/LOG03370.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG03423.JPG')"><img src="images/2_travel/thumbs/LOG03423.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG03477.JPG')"><img src="images/2_travel/thumbs/LOG03477.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG03506.JPG')"><img src="images/2_travel/thumbs/LOG03506.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG03635.JPG')"><img src="images/2_travel/thumbs/LOG03635.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG04101.JPG')"><img src="images/2_travel/thumbs/LOG04101.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG04332.JPG')"><img src="images/2_travel/thumbs/LOG04332.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG04664.JPG')"><img src="images/2_travel/thumbs/LOG04664.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG04754.JPG')"><img src="images/2_travel/thumbs/LOG04754.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG04799.JPG')"><img src="images/2_travel/thumbs/LOG04799.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG04841.JPG')"><img src="images/2_travel/thumbs/LOG04841.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG04880.JPG')"><img src="images/2_travel/thumbs/LOG04880.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG04898.JPG')"><img src="images/2_travel/thumbs/LOG04898.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG07465.JPG')"><img src="images/2_travel/thumbs/LOG07465.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG07564.JPG')"><img src="images/2_travel/thumbs/LOG07564.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG07644.JPG')"><img src="images/2_travel/thumbs/LOG07644.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG07789.JPG')"><img src="images/2_travel/thumbs/LOG07789.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG07873.JPG')"><img src="images/2_travel/thumbs/LOG07873.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG07895.JPG')"><img src="images/2_travel/thumbs/LOG07895.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG07963.JPG')"><img src="images/2_travel/thumbs/LOG07963.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG08501.JPG')"><img src="images/2_travel/thumbs/LOG08501.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG08742.JPG')"><img src="images/2_travel/thumbs/LOG08742.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG08968.JPG')"><img src="images/2_travel/thumbs/LOG08968.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG09019.JPG')"><img src="images/2_travel/thumbs/LOG09019.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG09045.JPG')"><img src="images/2_travel/thumbs/LOG09045.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG09099.JPG')"><img src="images/2_travel/thumbs/LOG09099.JPG" loading="lazy"></div><div class="photo-item" onclick="openLightbox(this, 'images/2_travel/LOG09528.JPG')"><img src="images/2_travel/thumbs/LOG09528.JPG" loading="lazy"></div></div></details>
+        <div class="about-trigger" onclick="openCard()">
+            <button id="collapse-btn" onclick="event.stopPropagation(); closeAllGalleries()">[ EXIT_GALLERY ]</button>
+            <div class="about-trigger-content">
+                <div class="title-group"><h2 class="category-title">CONTACT_INFO</h2><span class="expand-hint">CLICK TO ACCESS</span></div>
+            </div>
+        </div>
+    </main>
 </div>
 
-<footer>[ END_OF_SESSION // ARCH_STABLE ]</footer>
+<footer>[ END_OF_SESSION // MADE WITH GEMINI ]</footer>
 
-<div id="lightbox" onclick="this.style.display='none'"><img id="lightbox-img" src=""></div>
+<!-- Lightbox with Navigation and Right-click block -->
+<div id="lightbox" class="overlay" onclick="closeLightbox(event)">
+    <button id="prev-btn" class="nav-btn" onclick="event.stopPropagation(); changeImage(-1)">[ PREV ]</button>
+    <img id="lightbox-img" src="" oncontextmenu="return false;" onclick="event.stopPropagation()">
+    <button id="next-btn" class="nav-btn" onclick="event.stopPropagation(); changeImage(1)">[ NEXT ]</button>
+</div>
+
+<div id="card-overlay" class="overlay" onclick="this.style.display='none'">
+    <div class="business-card" onclick="event.stopPropagation()">
+        <p class="subtitle">// USER INFO</p>
+        <div class="card-name">EMMAN LOGATOC</div>
+        <div class="card-title">JOHN EMMANUEL G. LOGATOC // <br> FREELANCE PHOTOGRAPHER //
+            <p> <br>For bookings and inquiries please send me an email:
+                <br> EMAIL: emmanuel.logatoc@gmail.com
+            </p>
+        </div>
+        <div class="card-links">
+            <a href="https://www.instagram.com/emmanduuu/" target="_blank" class="social-link">[ INSTAGRAM ]</a>
+            <a href="https://www.linkedin.com/in/emmanlogatoc/" target="_blank" class="social-link">[ LINKEDIN ]</a>
+        </div>
+    </div>
+</div>
 
 <script>
-    function openLightbox(src) {
-        const lb = document.getElementById('lightbox');
-        const img = document.getElementById('lightbox-img');
-        img.src = src;
-        lb.style.display = 'flex';
+    let currentGallery = [];
+    let currentIndex = 0;
+
+    function openLightbox(element, src) {
+        // Find all images in the same gallery
+        const galleryContainer = element.closest('.gallery');
+        const allItems = Array.from(galleryContainer.querySelectorAll('.photo-item'));
+        
+        // Map to their full-res sources (stored in the onclick attribute)
+        currentGallery = allItems.map(item => {
+            const onclickStr = item.getAttribute('onclick');
+            return onclickStr.match(/'([^']+)'/)[1];
+        });
+
+        currentIndex = currentGallery.indexOf(src);
+        updateLightboxImage();
+        document.getElementById('lightbox').style.display = 'flex';
     }
-    document.addEventListener('keydown', e => {
-        if (e.key === "Escape") document.getElementById('lightbox').style.display = 'none';
+
+    function updateLightboxImage() {
+        document.getElementById('lightbox-img').src = currentGallery[currentIndex];
+    }
+
+    function changeImage(delta) {
+        // Modular arithmetic for infinite looping
+        // Index = (index + delta + length) % length
+        currentIndex = (currentIndex + delta + currentGallery.length) % currentGallery.length;
+        updateLightboxImage();
+    }
+
+    function closeLightbox(event) {
+        document.getElementById('lightbox').style.display = 'none';
+    }
+
+    function openCard() { document.getElementById('card-overlay').style.display = 'flex'; }
+    
+    function closeAllGalleries() {
+        document.querySelectorAll('details').forEach(d => d.removeAttribute('open'));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.addEventListener('keydown', e => { 
+        if (document.getElementById('lightbox').style.display === 'flex') {
+            if (e.key === "ArrowLeft") changeImage(-1);
+            if (e.key === "ArrowRight") changeImage(1);
+            if (e.key === "Escape") closeLightbox();
+        } else if (e.key === "Escape") {
+            document.getElementById('card-overlay').style.display = 'none';
+            closeAllGalleries();
+        }
     });
 </script>
 
 </body>
 </html>
-
